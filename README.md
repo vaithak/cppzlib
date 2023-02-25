@@ -19,6 +19,7 @@ A standalone c++ executable for compressing and decompressing a file using zlib.
     Input file size:         2.14 KB
     Compressed file size:    1.15 KB
     Compression ratio:       1.86
+    Elapsed time:            0.12 ms
     ```  
     
   - decompressing `sample.txt.z` (produced using above command)
@@ -29,5 +30,6 @@ A standalone c++ executable for compressing and decompressing a file using zlib.
     ### Output:
     Input file size:         1.15 KB
     Decompressed file size:  2.14 KB
+    Elapsed time:            0.12 ms
     ```  
 

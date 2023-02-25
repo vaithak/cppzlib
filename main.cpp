@@ -82,8 +82,7 @@ int main(int argc, char** argv) {
         std::cout << std::left << std::setw(25) 
             << "Decompressed file size: " << output_bytes.first << " " << output_bytes.second << std::endl;
     }
+    std::cout << std::left << std::setw(25) 
+        << "Elapsed time: " << metrics.elapsed_time.count() * 1000 << " ms" << std::endl;
     return 0;
 }
-
-
-
