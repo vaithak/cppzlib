@@ -84,5 +84,9 @@ int main(int argc, char** argv) {
     }
     std::cout << std::left << std::setw(25) 
         << "Elapsed time: " << metrics.elapsed_time.count() * 1000 << " ms" << std::endl;
+    std::pair<double, std::string> throughput = pretty_bytes(metrics.input_size / metrics.elapsed_time.count());
+    std::cout << std::left << std::setw(25) 
+        << "Throughput: " << throughput.first << " " << throughput.second << "/s" << std::endl;
+        
     return 0;
 }
