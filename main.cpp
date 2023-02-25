@@ -5,7 +5,6 @@
 // $ ./cppzlib -c file.txt -> compress file.txt to file.txt.z
 // $ ./cppzlib -d file.txt.z -> decompress file.txt.z to file.txt
 
-
 int main(int argc, char** argv) {
     // parse command line arguments.
     if ((argc != 3) || (argv[1][0] != '-') || (argv[1][1] != 'c' && argv[1][1] != 'd')) {
@@ -49,13 +48,6 @@ int main(int argc, char** argv) {
     }
     return 0;
 }
-
-// fix error handling in compressor.cpp.
-// create main function in main.cpp.
-// add basic readme.
-// add examples to readme.
-// print metrics after processing.
-// finalize readme.
 
 
 

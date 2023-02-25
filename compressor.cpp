@@ -8,22 +8,22 @@
 int cppzlib::Compressor::maybe_print_error_msg(int error_code) {
     switch (error_code) {
         case Z_ERRNO:
-            std::cerr << "Error reading or writing file.";
+            std::cerr << "Error reading or writing file." << std::endl;
             return 1;
         case Z_STREAM_ERROR:
-            std::cerr << "Invalid compression level.";
+            std::cerr << "Invalid compression level." << std::endl;
             return 1;
         case Z_DATA_ERROR:
-            std::cerr << "Input data was corrupted.";
+            std::cerr << "Input data was corrupted." << std::endl;
             return 1;
         case Z_MEM_ERROR:
-            std::cerr << "Out of memory.";
+            std::cerr << "Out of memory." << std::endl;
             return 1;
         case Z_BUF_ERROR:
-            std::cerr << "Output buffer was too small.";
+            std::cerr << "Output buffer was too small." << std::endl;
             return 1;
         case Z_VERSION_ERROR:
-            std::cerr << "Incompatible zlib version.";
+            std::cerr << "Incompatible zlib version." << std::endl;
             return 1;
         default:
             return 0;
