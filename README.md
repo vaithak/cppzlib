@@ -16,6 +16,9 @@ A standalone c++ executable for compressing and decompressing a file using zlib.
     $ ./cppzlib -c sample.txt 
     
     ### Output:
+    Input file size:         2.14 KB
+    Compressed file size:    1.15 KB
+    Compression ratio:       1.86
     ```  
     
   - decompressing `sample.txt.z` (produced using above command)
@@ -24,5 +27,7 @@ A standalone c++ executable for compressing and decompressing a file using zlib.
     $ ./cppzlib -d sample.txt.z
     
     ### Output:
+    Input file size:         1.15 KB
+    Decompressed file size:  2.14 KB
     ```  
 

@@ -1,9 +1,25 @@
 #include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
 #include "compressor.hpp"
 
 // example usages:
 // $ ./cppzlib -c file.txt -> compress file.txt to file.txt.z
 // $ ./cppzlib -d file.txt.z -> decompress file.txt.z to file.txt
+
+// function to pretty print bytes - returns a pair of the number of units and the unit.
+std::pair<double, std::string> pretty_bytes(size_t bytes)
+{
+    std::vector<std::string> suffixes{"B", "KB", "MB", "GB", "TB"};
+    size_t suffix_index = 0;
+    double remaining_bytes = bytes;
+    while (remaining_bytes > 1024 && suffix_index < suffixes.size() - 1) {
+        remaining_bytes /= 1024;
+        suffix_index++;
+    }
+    return {remaining_bytes, suffixes[suffix_index]};
+}
 
 int main(int argc, char** argv) {
     // parse command line arguments.
@@ -45,6 +61,26 @@ int main(int argc, char** argv) {
     int ret = compress ? compressor.compress(input, output) : compressor.decompress(input, output);
     if (ret != 0) {
         return ret;
+    }
+
+    // fetch metrics.
+    const cppzlib::Metrics& metrics = compressor.get_metrics();
+    std::pair<double, std::string> input_bytes = pretty_bytes(metrics.input_size);
+    std::pair<double, std::string> output_bytes = pretty_bytes(metrics.output_size);
+
+    // print metrics.
+    std::cout.setf(std::ios::fixed | std::ios::showpoint);
+    std::cout.precision(2);
+    std::cout << std::left << std::setw(25)
+        << "Input file size: " << input_bytes.first << " " << input_bytes.second << std::endl;
+    if (compress) {
+        std::cout << std::left << std::setw(25) 
+            << "Compressed file size: " << output_bytes.first << " " << output_bytes.second << std::endl;
+        std::cout << std::left << std::setw(25) 
+            << "Compression ratio: " << (double)metrics.input_size / metrics.output_size << std::endl;
+    } else {
+        std::cout << std::left << std::setw(25) 
+            << "Decompressed file size: " << output_bytes.first << " " << output_bytes.second << std::endl;
     }
     return 0;
 }

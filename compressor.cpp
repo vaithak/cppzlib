@@ -2,6 +2,13 @@
 #include <iostream>
 #include <zlib.h>
 
+// Constructor for Compressor class.
+cppzlib::Compressor::Compressor() {
+    metrics.input_size = 0;
+    metrics.output_size = 0;
+    metrics.elapsed_time = std::chrono::duration<double>(0);
+}
+
 // Function to print error messages according to error codes from zlib.
 // Returns 1 if error code from zlib is < 0, 0 otherwise.
 // reference: https://zlib.net/manual.html
@@ -77,7 +84,7 @@ int cppzlib::Compressor::compress(std::istream& input, std::ostream& output) {
             return handle_error(Z_ERRNO);
         }
         stream.avail_in = input.gcount();
-        input_size += input.gcount();
+        metrics.input_size += stream.avail_in;
         stream.next_in = input_buffer;
         flush = input.eof() ? Z_FINISH : Z_NO_FLUSH;
 
@@ -93,7 +100,7 @@ int cppzlib::Compressor::compress(std::istream& input, std::ostream& output) {
             if (output.bad()) {
                 return handle_error(Z_ERRNO);
             }
-            output_size += CHUNK_SIZE - stream.avail_out;
+            metrics.output_size += CHUNK_SIZE - stream.avail_out;
         } while (stream.avail_out == 0);
     } while (flush != Z_FINISH);
 
@@ -102,7 +109,7 @@ int cppzlib::Compressor::compress(std::istream& input, std::ostream& output) {
 
     // stop timer.
     auto end_time = std::chrono::high_resolution_clock::now();
-    elapsed_time = end_time - start_time;
+    metrics.elapsed_time = end_time - start_time;
 
     return 0;
 }
@@ -155,7 +162,7 @@ int cppzlib::Compressor::decompress(std::istream& input, std::ostream& output) {
             return handle_error(Z_ERRNO);
         }
         stream.avail_in = input.gcount();
-        input_size += input.gcount();
+        metrics.input_size += stream.avail_in;
         stream.next_in = input_buffer;
 
         // decompress data till output buffer is full.
@@ -177,7 +184,7 @@ int cppzlib::Compressor::decompress(std::istream& input, std::ostream& output) {
             if (output.bad()) {
                 return handle_error(Z_ERRNO);
             }
-            output_size += CHUNK_SIZE - stream.avail_out;
+            metrics.output_size += CHUNK_SIZE - stream.avail_out;
         } while (stream.avail_out == 0);
     } while (ret != Z_STREAM_END);
 
@@ -186,7 +193,7 @@ int cppzlib::Compressor::decompress(std::istream& input, std::ostream& output) {
 
     // stop timer.
     auto end_time = std::chrono::high_resolution_clock::now();
-    elapsed_time = end_time - start_time;
+    metrics.elapsed_time = end_time - start_time;
 
     return 0;
 }
