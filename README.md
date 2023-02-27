@@ -1,7 +1,21 @@
 # cppzlib
 A standalone c++ executable for compressing and decompressing a file using zlib.
 
-### Running Instructions
+## Installing zlib developer files
+
+### macOS
+Install `Command-line tools` on your OSX system and zlib will also be installed
+```
+xcode-select --install
+```
+
+### Debian based linux systems
+Install `zlib1g-dev` using `apt` package manager.
+```
+sudo apt-get install zlib1g-dev
+```
+
+## Running Instructions
 - clone the repository and `cd` into it.
 - compile the executable  
 
